@@ -22,14 +22,9 @@ import org.apache.log4j.Logger;
  * @author Fan Hongtao &ltfanhongtao@gmail.com&gt
  */
 public class RunLogger {
-    private static String FQCN;
+    private static String FQCN = RunLogger.class.getName();
 
-    private static Logger logger;
-
-    public void init() {
-        FQCN = RunLogger.class.getName();
-        logger = Logger.getLogger(RunLogger.class.getName());
-    }
+    private static Logger logger = Logger.getLogger(RunLogger.class.getName());
 
     public static void error(String msg) {
         logger.log(FQCN, Level.ERROR, msg, null);
