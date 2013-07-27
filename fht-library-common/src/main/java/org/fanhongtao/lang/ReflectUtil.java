@@ -65,6 +65,25 @@ public class ReflectUtil {
     }
 
     /**
+     * Set the value of a field to <i>value</i>.
+     * @param clazz The class (or parent class) of object
+     * @param obj The object try to access
+     * @param fieldName The name of the field
+     * @param value New value for the field 
+     */
+    public static void setField(Class<?> clazz, Object obj, String fieldName, Object value) {
+        try {
+            Field field = clazz.getDeclaredField(fieldName);
+            boolean oldAccess = field.isAccessible();
+            field.setAccessible(true);
+            field.set(obj, value);
+            field.setAccessible(oldAccess);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Get the value of a field
      * @param object The object try to access
      * @param fieldName The name of the field
@@ -114,7 +133,7 @@ public class ReflectUtil {
     * @param value The argument(s) value of the method
     * @return Object The return value of method
     * */
-    public static Object callMethod(Object object, String methodName, Class<?>[] type, Class<?>[] value) {
+    public static Object callMethod(Object object, String methodName, Class<?>[] type, Object[] value) {
         Class<?> classType = object.getClass();
         Method method = null;
         Object resultValue = null;
