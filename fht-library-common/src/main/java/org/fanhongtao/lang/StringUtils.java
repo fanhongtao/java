@@ -15,15 +15,12 @@
  */
 package org.fanhongtao.lang;
 
-import java.util.Formatter;
-import java.util.Locale;
-
 /**
  * @author Fan Hongtao &ltfanhongtao@gmail.com&gt
  * @created 2008-10-18
  */
 public class StringUtils {
-    public static final String CRLF = System.getProperty("line.separator");
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private static final char[] HEX = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
@@ -83,25 +80,26 @@ public class StringUtils {
      */
     public static String toEditorHexString(byte[] bytes, int offset, int length) {
         final int INCREMENT = 0x10;
-        StringBuilder sb = new StringBuilder(1024);
-        Formatter format = new Formatter(sb, Locale.US);
-
+        StringBuilder sb = new StringBuilder((bytes.length + INCREMENT) * 5);
+        String ZERO = "00000000";
+        String tmp;
         byte b;
         int j;
         int count = 0;
         int end = offset + length;
         for (int i = 0; i < end; i += INCREMENT) {
             // 写序号
-            format.format("%08Xh:", i);
+            tmp = Integer.toHexString(i).toUpperCase();
+            sb.append(ZERO.substring(0, 8 - tmp.length()));
+            sb.append(tmp);
+            sb.append("h:");
 
             // 写十六进制的码流
             for (j = 0; j < INCREMENT && i + j < end; j++) {
                 b = bytes[j + i];
-                if (j != 8) {
-                    format.format(" %02X", b);
-                } else {
-                    format.format(" %02X", b);
-                }
+                sb.append(' ');
+                sb.append(HEX[(b & 0xf0) >>> 4]);
+                sb.append(HEX[b & 0x0f]);
             }
             count = j;
 
@@ -117,12 +115,11 @@ public class StringUtils {
             // 显示原始字符的方式在换行时无法正确显示，所以最终修改成以"."表示不可见字符（包括汉字）
             for (j = 0; j < count; j++) {
                 b = bytes[i + j];
-                format.format("%c", b >= 32 ? b : '.');
+                sb.append(b >= 32 ? (char) b : '.');
             }
 
-            sb.append(CRLF);
+            sb.append(LINE_SEPARATOR);
         }
-        format.close();
 
         return sb.toString();
     }

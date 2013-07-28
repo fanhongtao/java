@@ -39,11 +39,11 @@ public class TreeBean {
         StringBuffer buf = new StringBuffer(1024);
 
         buf.append("<tree>");
-        buf.append(StringUtils.CRLF);
+        buf.append(StringUtils.LINE_SEPARATOR);
 
         for (NodeBean node : nodeList) {
             buf.append(node.dump());
-            buf.append(StringUtils.CRLF);
+            buf.append(StringUtils.LINE_SEPARATOR);
         }
 
         buf.append("</tree>");

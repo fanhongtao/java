@@ -93,16 +93,16 @@ public class NodeBean {
         StringBuffer buf = new StringBuffer(1024);
 
         buf.append("<node id=\"" + id + "\" title=\"" + title + "\" type=\"" + type + "\">");
-        buf.append(StringUtils.CRLF);
+        buf.append(StringUtils.LINE_SEPARATOR);
 
         for (AttrBean attr : attrList) {
             buf.append(attr.dump());
-            buf.append(StringUtils.CRLF);
+            buf.append(StringUtils.LINE_SEPARATOR);
         }
 
         for (NodeBean node : nodeList) {
             buf.append(node.dump());
-            buf.append(StringUtils.CRLF);
+            buf.append(StringUtils.LINE_SEPARATOR);
         }
 
         buf.append("</node>");
